@@ -1,4 +1,5 @@
 import { Project } from "../models/Project.models.js"
+import { upload_to_cloudinary } from "../utils/cloudinary.js"
 
 
 import { fileURLToPath } from 'url';
@@ -29,12 +30,11 @@ const getproject = async (req, res) => {
 }
 
 
-import { upload_to_cloudinary } from "../utils/cloudinary.js"
 const addproject = async (req, res) => {
     try {
 
-        // console.log("req.files");
-        // console.log(req.files);
+        console.log("req.files");
+        console.log(req.files);
 
         if (!req.files.thumbnail || req.files.thumbnail.length == 0) {
             return res.json({
@@ -73,20 +73,32 @@ const addproject = async (req, res) => {
         req.files.photos.map((fileobj) => {
             list_of_photos_path.push(path.join(__dirname, "..", "public", "project", "/") + fileobj.originalname);
         })
-        
+
         // upload thumbnail to cloudniry and save url in list
         var list_of_thumbnail_path = [];
         req.files.thumbnail.map((fileobj) => {
             list_of_thumbnail_path.push(path.join(__dirname, "..", "public", "project", "/") + fileobj.originalname);
         })
 
-    
+
+        var list_of_photos_url = [];
+        var list_of_thumbnail_url = [];
+        try {
+
+            list_of_photos_url = await upload_to_cloudinary(list_of_photos_path);
+            list_of_thumbnail_url = await upload_to_cloudinary(list_of_thumbnail_path);
+        } catch (error) {
+
+        }
+
+
+
         // get img  link and crete obj 
         const data = {
             title: title,
             desc: desc,
-            thumbnail:list_of_thumbnail_path[0], //here in this list we have only 1 photo always.. beacuse we limit to upload 1 thumbnail..
-            photos: list_of_photos_path,
+            thumbnail: list_of_thumbnail_url[0], //here in this list we have only 1 photo always.. beacuse we limit to upload 1 thumbnail..
+            photos: list_of_photos_url,
             technology: technology
         };
 

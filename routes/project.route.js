@@ -22,7 +22,6 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
-
 const upload = multer({ storage: storage });
 
 const router = Router();
@@ -33,6 +32,7 @@ try {
     router.route("/getprojects").get(getproject);
     router.route("/addproject").post(op, addproject);
 } catch (error) {
+    console.log(error);
 
 }
 

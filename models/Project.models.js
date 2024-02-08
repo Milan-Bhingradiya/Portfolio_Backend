@@ -11,7 +11,10 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    imgurl: [{
+    thumbnail: [{
+        type: String,
+    }],
+    photos: [{
         type: String,
     }],
     technology: [{

@@ -3,15 +3,29 @@ import { Project } from "../models/Project.models.js"
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import path from 'path';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getproject = (req, res) => {
+const getproject = async (req, res) => {
+    try {
+        console.log(__dirname);
+        console.log(__dirname);
+        console.log(__dirname);
+        console.log(__dirname);
+        console.log(__dirname);
+        // Find all projects
+        const projects = await Project.find();
 
-    const fileName = req.file;
+        return res.json({ "projects": projects })
 
-    return res.json({ "project": req.file })
+    } catch (error) {
+        console.error("Error in retrieving projects:", error);
+        return res.json({ "status": "false", "error": error })
+    }
+
 }
 
 
@@ -19,12 +33,19 @@ import { upload_to_cloudinary } from "../utils/cloudinary.js"
 const addproject = async (req, res) => {
     try {
 
-        console.log(req.files);
+        // console.log("req.files");
+        // console.log(req.files);
 
-        if (!req.files || req.files.length == 0) {
+        if (!req.files.thumbnail || req.files.thumbnail.length == 0) {
             return res.json({
                 "status": "false",
-                "reason": "img not recived"
+                "reason": "provide thumbnailimg "
+            })
+        }
+        if (!req.files.photos || req.files.photos.length == 0) {
+            return res.json({
+                "status": "false",
+                "reason": "provide photos other than thumbnail "
             })
         }
 
@@ -47,30 +68,25 @@ const addproject = async (req, res) => {
             })
         }
 
-        // upload img 
-
-
-        var list_of_imgpath = [];
-        req.files.map((fileobj) => {
-            list_of_imgpath.push("E:\\project\\NextJs_project\\Potfolio_Backend\\public\\project\\" + fileobj.originalname);
+        // upload img photos to cloudniry and save url in list
+        var list_of_photos_path = [];
+        req.files.photos.map((fileobj) => {
+            list_of_photos_path.push(path.join(__dirname, "..", "public", "project", "/") + fileobj.originalname);
+        })
+        
+        // upload thumbnail to cloudniry and save url in list
+        var list_of_thumbnail_path = [];
+        req.files.thumbnail.map((fileobj) => {
+            list_of_thumbnail_path.push(path.join(__dirname, "..", "public", "project", "/") + fileobj.originalname);
         })
 
-        const filename = req.files.originalname;
-        const imgurl = await upload_to_cloudinary(
-            list_of_imgpath
-        )
-
-        console.log(imgurl);
-        console.log(imgurl);
-
-
-
+    
         // get img  link and crete obj 
-
         const data = {
             title: title,
             desc: desc,
-            imgurl: imgurl,
+            thumbnail:list_of_thumbnail_path[0], //here in this list we have only 1 photo always.. beacuse we limit to upload 1 thumbnail..
+            photos: list_of_photos_path,
             technology: technology
         };
 

@@ -1,6 +1,5 @@
 
 import fs from "fs";
-import 'dotenv/config';
 import { v2 as cloudinary } from 'cloudinary';
 
 
@@ -38,7 +37,7 @@ const upload_to_cloudinary = async (list_of_file_obj) => {
             //       size: 6761095
             //     }
 
-            // Convert buffer to Base64-encoded data URI
+            // TODO:(imp..not todo) Convert buffer to Base64-encoded data URI
             const dataUri = `data:${file_obj.mimetype};base64,${file_obj.buffer.toString('base64')}`;
 
             const response = await cloudinary.uploader.upload(dataUri, { resource_type: "auto" });

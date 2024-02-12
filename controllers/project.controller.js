@@ -11,26 +11,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const getproject = async (req, res) => {
+    console.log("get project call");
     try {
-        console.log(__dirname);
-        console.log(__dirname);
-        console.log(__dirname);
-        console.log(__dirname);
-        console.log(__dirname);
+
         // Find all projects
         const projects = await Project.find();
 
-        return res.json({ "projects": projects })
+        return res.json({ "status": true, "projects": projects })
 
     } catch (error) {
         console.error("Error in retrieving projects:", error);
-        return res.json({ "status": "false", "error": error })
+        return res.json({ "status": false, "error": error })
     }
 
 }
 
 
 const addproject = async (req, res) => {
+    console.log("add project called");
+
+    // console.log(req.file);
+    // console.log(req.files);
     try {
 
         // console.log("req.files");
@@ -77,7 +78,8 @@ const addproject = async (req, res) => {
 
 
         // then checl other all filed not null
-        const { title, desc, technology } = req.body;
+        var { title, desc, technology } = req.body;
+
         if (!title || !desc) {
             return res.json({
                 "status": "false",
@@ -85,7 +87,8 @@ const addproject = async (req, res) => {
             })
 
         }
-
+        // we get technology as "["react","flutter"]" so we did ["react","flutter"] using below..
+        technology = JSON.parse(technology);
 
         if (technology.length == 0) {
             return res.json({
@@ -105,7 +108,7 @@ const addproject = async (req, res) => {
 
 
         if (list_of_photos_url.length == 0 || list_of_thumbnail_url.length == 0) {
-           return res.json({ "status": "false", "error": "we failed to upload your imges try again" })
+            return res.json({ "status": "false", "error": "we failed to upload your imges try again" })
         }
         // get img  link and crete obj 
         const data = {
@@ -120,7 +123,7 @@ const addproject = async (req, res) => {
         const ans = await Project.create(data);
 
         // give response to the user
-        return res.json({ "status": "true","res":ans })
+        return res.json({ "status": true, "data": ans })
 
     } catch (error) {
         console.log(error);

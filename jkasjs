@@ -1,0 +1,47 @@
+[33mcommit ae58466cda175a1abbd067c12cd1ed023b159a99[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Thu Feb 8 15:08:45 2024 +0530
+
+    in /addproject endpoint :  send img to cloudinary without save to local and send after converting buffer to Base64-encoded data URI then send ...
+
+[33mcommit 7f99aaf9eb2f4a0919b53087263f022a60a91b98[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Thu Feb 8 14:43:33 2024 +0530
+
+    IN /addprojects -> till now photo save in Disk for some temp time then upload to clodinary then delete..
+
+[33mcommit d5546998af13a6d901be1e56cd5ade37889311bd[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Thu Feb 8 13:50:15 2024 +0530
+
+    aded /getprojects and /addproject done with img upload with thumbnail
+
+[33mcommit 4dfacddf8b146401845f52bb6d736dd817a8cbc5[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Thu Feb 8 12:19:54 2024 +0530
+
+    added endpoint->  /addproject with one img upload. (will change to multiple img upload in /addproject endpoint
+
+[33mcommit 0dcf67d0d812d6aaf3e8aeadf84af5f5392622c4[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Tue Nov 7 21:40:30 2023 +0530
+
+    add node version name in pkg.json for render to use newer version of node
+
+[33mcommit 51a24ce3e4040138e51d5ca92588d8a6a1e6ac03[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Tue Nov 7 21:22:06 2023 +0530
+
+    upgrade mongoose pkg
+
+[33mcommit e1ba28208ab5b59f60015dc6ca94d85e585476b9[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Tue Nov 7 21:13:42 2023 +0530
+
+    npm to yarn migrate
+
+[33mcommit 35ba4880d810317d7ce2e5b1a37fdf0130df9525[m
+Author: Milan op <milanbhingradiya00@gmail.com>
+Date:   Tue Nov 7 20:39:53 2023 +0530
+
+    init commit

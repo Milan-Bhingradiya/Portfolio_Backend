@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from "express";
 import connect from "./db/db.js";
 
-import {app} from "./app.js"
+import { app } from "./app.js"
 
 
 
@@ -21,7 +21,7 @@ connect().then(
 app.get("/profile", (req, res) => {
     // console.log("welcome to port 2222");
     res.json({
-        "name": "Milan Bhingrdiya", 
+        "name": "Milan Bhingrdiya",
         "age": 18,
     });
 })

@@ -5,19 +5,41 @@ import { upload_to_cloudinary } from "../utils/cloudinary.js"
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
+import NodeCache from "node-cache";
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// 10 day store cache ..
+// const nodeCache= new NodeCache({stdTTL: 60*60*24*10});
+// 10 min store cache..
+// const nodeCache= new NodeCache({stdTTL: 60*10});
+// 1 min store cache..
+// const nodeCache= new NodeCache({stdTTL: 60});
+// 10 sec store cache..
+// const nodeCache= new NodeCache({stdTTL: 10});
+// 1 sec store cache..
+// const nodeCache= new NodeCache({stdTTL: 1});
+// no store cache..
+// const nodeCache= new NodeCache({stdTTL: 0});
+
+// 10 day store cache ..
+const nodeCache = new NodeCache({ stdTTL: 60 * 60 * 24 * 10 });
+
 const getproject = async (req, res) => {
     console.log("get project call");
     try {
+        let projects;
+        if (nodeCache.has("projects")) {
+            projects = JSON.parse(nodeCache.get("projects"));
+        } else {
+            projects = await Project.find();
+            nodeCache.set("projects", JSON.stringify(projects))
+        }
+        return res.json({ "status": true, "projects": projects })
 
         // Find all projects
-        const projects = await Project.find();
-
-        return res.json({ "status": true, "projects": projects })
 
     } catch (error) {
         console.error("Error in retrieving projects:", error);
@@ -76,7 +98,6 @@ const addproject = async (req, res) => {
             })
         }
 
-
         // then checl other all filed not null
         var { title, desc, technology } = req.body;
 
@@ -121,6 +142,13 @@ const addproject = async (req, res) => {
 
         //save to db and send response
         const ans = await Project.create(data);
+
+        // add this updated data in old cache..
+        if (nodeCache.has("projects")) {
+            let projects = JSON.parse(nodeCache.get("projects"));
+            projects.push(ans);
+            nodeCache.set("projects", JSON.stringify(projects));
+        }
 
         // give response to the user
         return res.json({ "status": true, "data": ans })

@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import projectRouter from './routes/project.route.js';
-import  authrouter  from "./routes/auth.router.js";
+import userRouter from './routes/user.route.js';
+import  adminRouter  from "./routes/admin.route.js";
 const app = express();
 
 app.use(cors({
@@ -16,8 +16,8 @@ app.use(express.json());
 
 // routes imports
 // route declare
-app.use("/api/v1",projectRouter);
-app.use("/api/v1",authrouter);
+app.use("/api/v1/user",userRouter);
+app.use("/api/v1/admin",adminRouter);
 
 export {app};
 

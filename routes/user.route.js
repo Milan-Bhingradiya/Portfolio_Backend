@@ -1,6 +1,6 @@
 
 import { Router } from "express";
-import { getproject, addproject } from "../controllers/project.controller.js";
+import { getproject, addproject, contactus } from "../controllers/project.controller.js";
 
 
 import multer from "multer";
@@ -33,6 +33,7 @@ try {
     const op = upload.fields([{ name: "photos", maxCount: 10 }, { name: "thumbnail", maxCount: 1 }]);
     router.route("/getprojects").get(getproject);
     router.route("/addproject").post(op, addproject);
+    router.route("/contactus").post(contactus)
 } catch (error) {
     console.log(error);
 

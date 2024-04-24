@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
 import NodeCache from "node-cache";
+import { Contact } from "../models/Contact.models.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -161,5 +162,38 @@ const addproject = async (req, res) => {
 
 }
 
+const contactus = async (req, res) => {
+    console.log("contact us call");
+    try {
+        var { name, email, subject,message } = req.body;
 
-export { getproject, addproject };
+        
+        if (!name || !email || !subject || !message) {
+            return res.json({
+                "status": "false",
+                "reason": "send all field detail"
+            })
+
+        }
+
+        const data = {
+            name: name,
+            email: email,
+            subject: subject,
+            message: message
+        };
+
+        //save to db and send response
+        const ans = await Contact.create(data);
+
+        return res.json({ "status": true, "data": ans })
+
+        // Find all projects
+
+    } catch (error) {
+        return res.json({ "status": false, "error": error })
+    }
+
+}
+
+export { getproject, addproject,contactus };
